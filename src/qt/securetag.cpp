@@ -528,6 +528,7 @@ void BitcoinApplication::initializeResult(int retval)
         else
         {
             window->show();
+            window->resize(1980, 1080);
         }
         Q_EMIT splashFinished(window);
 

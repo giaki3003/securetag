@@ -295,7 +295,7 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int nBlockH
         if(!fnodeman.GetNextFundamentalnodeInQueueForPayment(nBlockHeight, true, nCount, fnInfo)) {
             // ...and we can't calculate it on our own
             LogPrintf("CMasternodePayments::FillBlockPayee -- Failed to detect fundamentalnode to pay\n");
-            return;
+            //return;
         }
         // fill payee with locally calculated winner and hope for the best
         payeeFN = GetScriptForDestination(fnInfo.pubKeyCollateralAddress.GetID());

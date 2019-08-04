@@ -24,6 +24,7 @@
 #include "wallet/walletdb.h"
 
 #include "masternodeconfig.h"
+#include "fundamentalnodeconfig.h"
 #include "governance.h"
 
 #include "privatesend-client.h"
@@ -97,6 +98,9 @@ void OptionsModel::Init(bool resetSettings)
 
     if (!settings.contains("fShowMasternodesTab"))
         settings.setValue("fShowMasternodesTab", masternodeConfig.getCount());
+
+    if (!settings.contains("fShowFundamentalnodesTab"))
+        settings.setValue("fShowFundamentalnodesTab", fundamentalnodeConfig.getCount());
 
     if (!settings.contains("fShowGovernanceTab"))
         settings.setValue("fShowGovernanceTab", masternodeConfig.getCount());
@@ -275,6 +279,8 @@ QVariant OptionsModel::data(const QModelIndex & index, int role) const
             return settings.value("bSpendZeroConfChange");
         case ShowMasternodesTab:
             return settings.value("fShowMasternodesTab");
+        case ShowFundamentalnodesTab:
+            return settings.value("fShowFundamentalnodesTab");
         case ShowGovernanceTab:
             return settings.value("fShowGovernanceTab");
         case ShowAdvancedPSUI:
@@ -421,6 +427,12 @@ bool OptionsModel::setData(const QModelIndex & index, const QVariant & value, in
         case ShowMasternodesTab:
             if (settings.value("fShowMasternodesTab") != value) {
                 settings.setValue("fShowMasternodesTab", value);
+                setRestartRequired(true);
+            }
+            break;
+        case ShowFundamentalnodesTab:
+            if (settings.value("fShowFundamentalnodesTab") != value) {
+                settings.setValue("fShowFundamentalnodesTab", value);
                 setRestartRequired(true);
             }
             break;
