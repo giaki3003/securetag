@@ -37,7 +37,7 @@ extern CMasternodePayments mnpayments;
 bool IsBlockValueValid(const CBlock& block, int nBlockHeight, CAmount expectedReward, CAmount actualReward, std::string& strErrorRet);
 bool IsBlockPayeeValid(const CTransactionRef& txNew, int nBlockHeight, CAmount expectedReward, CAmount actualReward);
 void FillBlockPayments(CMutableTransaction& txNew, int nBlockHeight, CAmount blockReward, CTxOut& txoutMasternodeRet, CTxOut& txoutFundamentalnodeRet, std::vector<CTxOut>& voutSuperblockRet);
-void AdjustMasternodePayment(CMutableTransaction &tx, const CTxOut& txoutMasternodePayment, const CTxOut& txoutFundamentalnodePayment);
+void AdjustMasternodePayment(CMutableTransaction &tx, const CTxOut& txoutMasternodePayment);
 std::string GetRequiredPaymentsString(int nBlockHeight);
 
 class CMasternodePayee

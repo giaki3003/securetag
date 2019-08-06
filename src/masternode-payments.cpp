@@ -1144,24 +1144,17 @@ void CMasternodePayments::UpdatedBlockTip(const CBlockIndex *pindex, CConnman& c
     CheckBlockVotes(nFutureBlock - 1);
     ProcessBlock(nFutureBlock, connman);
 }
-void AdjustMasternodePayment(CMutableTransaction &tx, const CTxOut &txoutMasternodePayment, const CTxOut &txoutFundamentalnodePayment)
+void AdjustMasternodePayment(CMutableTransaction &tx, const CTxOut &txoutMasternodePayment)
 {
     auto it = std::find(std::begin(tx.vout), std::end(tx.vout), txoutMasternodePayment);
-    auto it2 = std::find(std::begin(tx.vout), std::end(tx.vout), txoutFundamentalnodePayment);
     if(it != std::end(tx.vout))
     {
         long mnPaymentOutIndex = std::distance(std::begin(tx.vout), it);
+        long fnPaymentOutIndex = mnPaymentOutIndex + 1; //Add 1 for the FN payment
         auto masternodePayment = tx.vout[mnPaymentOutIndex].nValue;
-        // For the special transaction the vout of MNpayemnt is the first.
-        long i = tx.vout.size() - 2;
-        tx.vout[i].nValue -= masternodePayment; // last vout is mn payment.
-    }
-    if(it2 != std::end(tx.vout))
-    {
-        long fnPaymentOutIndex = std::distance(std::begin(tx.vout), it2);
         auto fundamentalnodePayment = tx.vout[fnPaymentOutIndex].nValue;
-        // For the special transaction the vout of MNpayemnt is the first.
-        long i = tx.vout.size() - 1;
-        tx.vout[i].nValue -= fundamentalnodePayment; // last vout is mn payment.
+        // For the special transaction the vout of MNpayment is the first.
+        long i = tx.vout.size() - 3;
+        tx.vout[i].nValue -= masternodePayment + fundamentalnodePayment; // 3rd vout is mn payment.
     }
 }
